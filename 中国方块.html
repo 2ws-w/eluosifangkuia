@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国方块</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+        }
+
+        html {
+            height: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            float: left;
+            margin: 0 auto;
+            margin-right: 16px;
+            box-sizing: border-box;
+            transition: all 1s;
+        }
+
+        .tab1 {
+            background-color: rgb(128, 128, 128);
+        }
+
+        .tab2 {
+            /* background-color: rgb(236, 157, 157); */
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .tab2 td {
+            border: 1px solid rgb(231, 234, 236, 0);
+        }
+
+        body {
+            overflow: hidden;
+            background-color: rgba(235, 192, 192, 0.753);
+            padding-top: 100px;
+            padding-left: 600px;
+        }
+
+
+        td {
+            width: 25px;
+            height: 25px;
+            box-sizing: border-box;
+            border: 1px solid rgb(231, 234, 236, .1);
+
+        }
+
+        .c1 {
+            background-color: #D6A2E8;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            /* background-color: rgb(201, 144, 144); */
+        }
+
+        .c2 {
+            background-color: #ff4757;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+
+        }
+
+        .c3 {
+            background-color: #2ed573;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+
+        }
+
+        .c4 {
+            background-color: #2f3542;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+
+        }
+
+        .c5 {
+            background-color: #ffa502;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+
+        }
+
+        .c6 {
+            background-color: #706fd3;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+
+        }
+
+        .c7 {
+            background-color: #1B9CFC;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+
+        }
+
+        h2 {
+            width: 100%;
+            float: left;
+            padding: 20px 0;
+
+        }
+
+
+        #f {
+            display: none;
+        }
+
+        #score {
+            display: none;
+        }
+
+
+        .ss {
+            border: 2px solid white;
+            background: transparent;
+            text-transform: uppercase;
+            color: white;
+            padding: 15px 50px;
+            outline: none;
+            overflow: hidden;
+            position: relative;
+            top: 200px;
+            left: 90px;
+        }
+
+        .ss span {
+            z-index: 20;
+        }
+
+        .ss::after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: -36px;
+            left: -100px;
+            background: white;
+            width: 50px;
+            height: 125px;
+            opacity: 20%;
+            transform: rotate(-45deg);
+        }
+
+        .ss:hover::after {
+            left: 120%;
+            transition: all 600ms cubic-bezier(0.3, 1, 0.2, 1);
+            /* 动态移动，从x1y1-->x2y2 */
+
+        }
+
+        #draw-border {
+            position: absolute;
+            top: 110px;
+            left: 780px;
+        }
+
+
+        .db {
+            display: none;
+            border: 0px;
+            background: none;
+            text-transform: uppercase;
+            outline: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            box-sizing: border-box;
+            position: relative;
+            font-weight: bold;
+            color: #4361ee;
+        }
+
+        .db::after,
+        .db::before {
+            box-sizing: inherit;
+            position: absolute;
+            content: "";
+            border: 2px solid transparent;
+            width: 0;
+            height: 0;
+        }
+
+        .db::before {
+            top: 0;
+            left: 0;
+        }
+
+        .db::after {
+            bottom: 0;
+            right: 0;
+        }
+
+        .db:hover::before,
+        .db:hover::after {
+            width: 100%;
+            height: 100%;
+        }
+
+        .db:hover::before {
+            border-top-color: #4361ee;
+            border-right-color: #4361ee;
+            transition: width 0.1s ease-out, height 0.1s ease-out 0.1s;
+
+        }
+
+        .db:hover::after {
+            border-bottom-color: #4361ee;
+            border-left-color: #4361ee;
+            transition: border-color 0s ease-out 0.2s, width 0.1s ease-out 0.2s, height 0.1s ease-out 0.3s;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 id="score">分数：0</h2>
+    <h2 id="f"> 帧编号：0</h2>
+    <button class="ss"> <span>开始游戏</span></button>
+    <div id="draw-border">
+        <button class="db gameover">重新游戏</button>
+    </div>
+    <script src="./Block-Json.js"></script>
+    <script src="./Game.js"></script>
+    <script src="./Block.js"></script>
+    <script src="./jquerry.mini.js"></script>
+    <script src="./Map.js"></script>
+    <script>
+        let game;
+        const btn = document.querySelector('button');
+        const score = document.getElementById('score');
+        btn.addEventListener('click', function () {
+            game = new Game();
+            btn.style.display = 'none'
+            score.style.display = 'block'
+            gameover.style.display = 'block';
+        })
+        const gameover = document.querySelector('.gameover');
+
+        gameover.addEventListener('click', function () {
+            location.reload()
+        })
+
+    </script>
+</body>
+
+</html>
